@@ -58,32 +58,7 @@ npm -v
 
 ---
 
-### SQLite
-
-SQLite is a lightweight database supported on all platforms.
-
-Download:
-
-https://sqlite.org/download.html
-
-Verify installation:
-
-```
-sqlite3 --version
-```
-
----
-
-# Step 1 – Create Project Directory
-
-```
-mkdir sql-injection-lab
-cd sql-injection-lab
-```
-
----
-
-# Step 2 – Initialize Node Project
+# Step 1 –  Initialize Node Project
 
 ```
 npm init -y
@@ -92,7 +67,7 @@ npm install express sqlite3 body-parser
 
 ---
 
-# Step 3 – Create Database
+# Step 2 – Create Database
 
 Create database:
 
@@ -135,111 +110,10 @@ Exit SQLite:
 
 ---
 
-# Step 4 – Create Vulnerable Server
-
-Create file:
-
-```
-server.js
-```
-
-```javascript
-const express = require("express")
-const sqlite3 = require("sqlite3").verbose()
-const bodyParser = require("body-parser")
-
-const app = express()
-const db = new sqlite3.Database("portal.db")
-
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.static("public"))
-
-app.post("/login", (req, res) => {
-
-    const username = req.body.username
-    const password = req.body.password
-
-    const query =
-        "SELECT * FROM users WHERE username = '" +
-        username +
-        "' AND password = '" +
-        password +
-        "'"
-
-    db.all(query, (err, rows) => {
-
-        if (rows.length > 0) {
-
-            db.all("SELECT * FROM items", (err, items) => {
-
-                let html = "<h1>Items</h1>"
-
-                items.forEach(i => {
-                    html += `<p>${i.name} - $${i.price}</p>`
-                })
-
-                res.send(html)
-
-            })
-
-        } else {
-            res.send("Login failed")
-        }
-
-    })
-
-})
-
-app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000")
-})
-```
 
 ---
 
-# Step 5 – Create Login Page
-
-Create folder:
-
-```
-public
-```
-
-Create file:
-
-```
-public/index.html
-```
-
-```html
-<html>
-<head>
-<title>Student Portal</title>
-</head>
-
-<body>
-
-<h2>Login</h2>
-
-<form method="POST" action="/login">
-
-Username
-<input name="username">
-
-Password
-<input name="password" type="password">
-
-<button type="submit">Login</button>
-
-</form>
-
-</body>
-</html>
-```
-
----
-
-# Step 6 – Start the Portal
+# Step 3 – Start the Portal
 
 Run:
 
@@ -297,6 +171,67 @@ Example SQL logic:
 OR 1=1
 ```
 
+
+## Tip – Closing the SQL String
+
+When performing a SQL injection attack, it is often necessary to **close the string literal used by the original SQL query** before inserting malicious SQL logic.
+
+Consider the vulnerable query used by the application:
+
+```sql
+SELECT * FROM users
+WHERE username = '<username>'
+AND password = '<password>'
+```
+
+The values entered by the user are placed **inside single quotes** (`' '`).
+
+For example, if a user enters:
+
+```
+username: alice
+password: password1
+```
+
+The database executes:
+
+```sql
+SELECT * FROM users
+WHERE username = 'alice'
+AND password = 'password1'
+```
+
+To inject SQL code, an attacker must first **terminate the string literal** by adding a single quote `'`.
+
+Example payload:
+
+```
+' OR 1=1 --
+```
+
+This payload works because:
+
+1. The first `'` **closes the original string**.
+2. `OR 1=1` introduces a condition that always evaluates to TRUE.
+3. `--` begins a SQL comment, causing the remainder of the query to be ignored.
+
+The resulting SQL statement becomes:
+
+```sql
+SELECT * FROM users
+WHERE username = 'alice'
+AND password = '' OR 1=1 --'
+```
+
+Since `1=1` is always true, the database returns rows and authentication is bypassed.
+
+### Key Idea
+
+Successful SQL injection often follows three steps:
+
+1. **Close the string literal** (`'`)
+2. **Insert malicious SQL logic**
+3. **Comment out the rest of the query** (`--`)
 ---
 
 # Question 2 – Comment Injection
