@@ -1,0 +1,6 @@
+rules:
+- id: csrf
+  pattern: app.post(...)
+  message: Missing CSRF protection
+  languages: [javascript]
+  severity: WARNING

@@ -1,0 +1,6 @@
+rules:
+- id: xss
+  pattern: res.send("<h1>" + $X + "</h1>")
+  message: XSS detected
+  languages: [javascript]
+  severity: WARNING

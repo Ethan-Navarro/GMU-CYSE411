@@ -1,0 +1,6 @@
+rules:
+- id: path-traversal
+  pattern: fs.readFileSync("files/" + $X, ...)
+  message: Path traversal risk
+  languages: [javascript]
+  severity: WARNING
