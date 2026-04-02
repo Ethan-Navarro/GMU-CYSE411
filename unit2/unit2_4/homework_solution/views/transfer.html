@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html><body>
+<h2>Transfer</h2>
+<form id="f">
+<input name="toAccount"><br>
+<input name="amount"><br>
+<input type="hidden" id="csrfToken">
+<button>Send</button>
+</form>
+
+<script>
+fetch("/csrf-token").then(r=>r.text()).then(t=>document.getElementById("csrfToken").value=t);
+
+document.getElementById("f").onsubmit = async (e)=>{
+e.preventDefault();
+
+await fetch("/transfer",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body: JSON.stringify({
+toAccount:f.toAccount.value,
+amount:f.amount.value,
+csrfToken:csrfToken.value
+})
+});
+};
+</script>
+
+</body></html>

@@ -1,0 +1,1 @@
+bcrypt.compare(password, user.passwordHash)
