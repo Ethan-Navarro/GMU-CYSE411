@@ -1,0 +1,13 @@
+rules:
+  - id: user-input-to-eval
+    mode: taint
+
+    pattern-sources:
+      - pattern: req.body.$X
+
+    pattern-sinks:
+      - pattern: eval($Y)
+
+    message: "User input flows into eval → injection risk"
+    languages: [javascript]
+    severity: ERROR

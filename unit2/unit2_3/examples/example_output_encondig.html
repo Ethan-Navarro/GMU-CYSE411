@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Output Encoding Example</title>
+</head>
+<body>
+    <h1>User Bio</h1>
+
+    <h2>Vulnerable (Raw HTML)</h2>
+    <div id="vulnerable-output"></div>
+
+    <h2>Safe (Encoded Text)</h2>
+    <div id="safe-output"></div>
+
+    <script>
+        // Simulation: This data usually comes from a URL or a Database
+        const userInput = "<img src=x onerror=alert('XSS_Attack_Successful')>";
+
+        // --- THE VULNERABLE WAY ---
+        // This acts like <%- userInput %> in EJS.
+        // It renders the string as actual HTML/Script.
+        document.getElementById("vulnerable-output").innerHTML = userInput;
+
+        // --- THE SAFE WAY (Output Encoding) ---
+        // This acts like <%= userInput %> in EJS.
+        // It automatically ENCODES < into &lt; and > into &gt;.
+        // The browser treats it as plain text, NOT as a command.
+        document.getElementById("safe-output").textContent = userInput;
+    </script>
+</body>
+</html>

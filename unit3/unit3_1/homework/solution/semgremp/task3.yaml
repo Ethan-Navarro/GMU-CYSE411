@@ -1,0 +1,10 @@
+rules:
+  - id: innerhtml-xss
+    mode: taint
+    pattern-sources:
+      - pattern: location.$X
+    pattern-sinks:
+      - pattern: $E.innerHTML = $X
+    message: "Task 3: Unsafe use of innerHTML (XSS risk)"
+    languages: [javascript]
+    severity: ERROR

@@ -1,0 +1,14 @@
+name: Task 3 - innerHTML
+
+on:
+  push:
+    paths:
+      - '**.js'
+
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install semgrep
+      - run: semgrep --config semgrep/task3.yaml --error

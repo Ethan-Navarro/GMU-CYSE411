@@ -1,6 +1,0 @@
-rules:
-- id: sqli
-  pattern: "SELECT * FROM users WHERE name = '" + $X + "'"
-  message: SQL Injection
-  languages: [javascript]
-  severity: ERROR

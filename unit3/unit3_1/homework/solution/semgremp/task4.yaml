@@ -1,0 +1,10 @@
+rules:
+  - id: sql-injection
+    mode: taint
+    pattern-sources:
+      - pattern: req.$X
+    pattern-sinks:
+      - pattern: db.query($Y)
+    message: "Task 4: SQL Injection risk (user input in query)"
+    languages: [javascript]
+    severity: ERROR

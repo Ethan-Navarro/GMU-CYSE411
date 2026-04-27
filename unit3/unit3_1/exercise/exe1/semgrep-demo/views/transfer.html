@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head><title>Transfer</title></head>
+<body>
+<h2>Transfer Money</h2>
+
+<form id="transferForm">
+<input name="fromAccount" placeholder="From Account"><br>
+<input name="toAccount" placeholder="To Account"><br>
+<input name="amount" placeholder="Amount"><br>
+<button type="submit">Transfer</button>
+</form>
+
+<script>
+document.getElementById("transferForm").addEventListener("submit", async function(e){
+e.preventDefault();
+
+await fetch("/transfer", {
+method: "POST",
+headers: {"Content-Type":"application/json"},
+body: JSON.stringify({
+fromAccount: this.fromAccount.value,
+toAccount: this.toAccount.value,
+amount: this.amount.value
+})
+});
+
+alert("Transfer sent");
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+rules:
+  - id: insecure-localstorage
+    pattern: localStorage.setItem($KEY, $VALUE)
+    message: "Task 6: Avoid storing sensitive data in localStorage"
+    languages: [javascript]
+    severity: WARNING

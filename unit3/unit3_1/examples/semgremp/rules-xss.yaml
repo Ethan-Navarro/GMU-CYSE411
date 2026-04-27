@@ -1,0 +1,10 @@
+rules:
+  - id: express-xss
+    mode: taint
+    pattern-sources:
+      - pattern: req.$X
+    pattern-sinks:
+      - pattern: res.send($Y)
+    message: "Possible XSS vulnerability"
+    languages: [javascript]
+    severity: WARNING

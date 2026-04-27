@@ -1,0 +1,10 @@
+rules:
+  - id: dom-xss-document-write
+    mode: taint
+    pattern-sources:
+      - pattern: location.$X
+    pattern-sinks:
+      - pattern: document.write($X)
+    message: "Task 2: DOM XSS via document.write"
+    languages: [javascript]
+    severity: ERROR

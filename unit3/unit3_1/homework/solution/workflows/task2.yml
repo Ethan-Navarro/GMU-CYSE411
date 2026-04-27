@@ -1,0 +1,14 @@
+name: Task 2 - DOM XSS
+
+on:
+  push:
+    paths:
+      - '**.js'
+
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install semgrep
+      - run: semgrep --config semgrep/task2.yaml --error

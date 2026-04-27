@@ -1,0 +1,6 @@
+rules:
+  - id: no-eval
+    pattern: eval($X)
+    message: "Use of eval is dangerous and can lead to code injection"
+    languages: [javascript]
+    severity: ERROR

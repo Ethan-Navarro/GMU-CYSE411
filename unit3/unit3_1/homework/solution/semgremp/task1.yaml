@@ -1,0 +1,6 @@
+rules:
+  - id: no-eval
+    pattern: eval($X)
+    message: "Task 1: Remove eval() usage (unsafe execution)"
+    languages: [javascript]
+    severity: ERROR

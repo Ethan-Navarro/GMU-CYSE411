@@ -36,7 +36,7 @@ The application contains:
 ### Task 1 – Basic Pipeline
 
 Run provided workflow:
-- sast-basic.yml
+- sast-basic.yml (.github/workflows/)
 
 ---
 
@@ -103,19 +103,6 @@ Modify at least one workflow to:
 
 ---
 
-## Autograder
-
-Run:
-python tests/grader.py
-
----
-
-## Deliverables
-
-- 5 workflow YAML files
-- 1 custom Semgrep rule
-
----
 
 ## Key Insight
 
@@ -128,4 +115,3 @@ It is about:
 
 
 
-TODO: https://semgrep.dev/docs/writing-rules/rule-ideas
